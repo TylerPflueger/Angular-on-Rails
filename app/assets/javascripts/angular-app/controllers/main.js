@@ -1,7 +1,9 @@
-angular
-    .module('app')
-    .controller('MainCtrl', ['Todo', '$scope', '$routeParams',
-        function(Todo, $scope, $routeParams) {
+(function() {
+
+    var app = angular.module('app');
+
+    app.controller('MainCtrl', ['Todo', '$scope', '$routeParams',
+        function (Todo, $scope, $routeParams) {
 
             $scope.todos = Todo.query();
 
@@ -9,8 +11,8 @@ angular
                 var status = $scope.status = $routeParams.status || '';
 
                 $scope.statusFilter = (status === 'active') ?
-                { completed: false } : (status === 'completed') ?
-                { completed: true } : null;
+                {completed: false} : (status === 'completed') ?
+                {completed: true} : null;
             });
 
             var uncompletedTodos;
@@ -19,20 +21,22 @@ angular
 
             $scope.checked = false;
 
-            $scope.edit = function(todo) {
+            $scope.edit = function (todo) {
                 $scope.activeTodo = todo;
             };
 
-            $scope.checkAll = function(checked) {
-                _.each($scope.todos, function(todo) { $scope.checkAndSave(todo, checked); });
+            $scope.checkAll = function (checked) {
+                _.each($scope.todos, function (todo) {
+                    $scope.checkAndSave(todo, checked);
+                });
             };
 
-            $scope.checkAndSave = function(todo, checked) {
+            $scope.checkAndSave = function (todo, checked) {
                 todo.completed = checked || !!(!todo.completed);
                 $scope.save(todo);
             };
 
-            $scope.save = function(todo) {
+            $scope.save = function (todo) {
                 if (!_.include($scope.todos, todo)) {
                     $scope.todos.push(todo);
                     todo.$save();
@@ -43,7 +47,7 @@ angular
                 $scope.activeTodo = new Todo();
             };
 
-            $scope.remove = function(todo) {
+            $scope.remove = function (todo) {
                 Todo.delete(todo);
                 _.remove($scope.todos, todo);
                 updateRemainingTodoCount();
@@ -51,10 +55,13 @@ angular
 
             function updateRemainingTodoCount() {
                 uncompletedTodos = _.chain($scope.todos)
-                    .map(function(todo) { return !todo.completed })
+                    .map(function (todo) {
+                        return !todo.completed
+                    })
                     .compact()
                     .value();
                 $scope.remainingCount = uncompletedTodos.length;
             };
 
         }]);
+})();
