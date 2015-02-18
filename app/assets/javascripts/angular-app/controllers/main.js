@@ -4,9 +4,14 @@
 
     app.controller('MainCtrl', ['Todo', '$scope', '$routeParams',
         function (Todo, $scope, $routeParams) {
-
             $scope.todos = Todo.query();
 
+            $scope.$watch('todos', function (newValue, oldValue) {
+                _.forEach(newValue, function(value) {
+                   $scope.save(value);
+                });
+            }, true);
+            
             $scope.$on('$routeChangeSuccess', function () {
                 var status = $scope.status = $routeParams.status || '';
 
@@ -31,8 +36,7 @@
                 });
             };
 
-            $scope.checkAndSave = function (todo, checked) {
-                todo.completed = checked || !!(!todo.completed);
+            $scope.checkAndSave = function (todo) {
                 $scope.save(todo);
             };
 
