@@ -11,7 +11,7 @@
                    $scope.save(value);
                 });
             }, true);
-            
+
             $scope.$on('$routeChangeSuccess', function () {
                 var status = $scope.status = $routeParams.status || '';
 
