@@ -2,13 +2,15 @@
 
     var app = angular.module('app');
 
-    app.controller('MainCtrl', ['Todo', '$scope', '$routeParams',
-        function (Todo, $scope, $routeParams) {
+    app.controller('MainCtrl', ['Todo', '$scope', '$routeParams', mainCtrl]);
+
+    function mainCtrl(Todo, $scope, $routeParams) {
             $scope.todos = Todo.query();
 
             $scope.$watch('todos', function (newValue, oldValue) {
-                _.forEach(newValue, function(value) {
-                   $scope.save(value);
+                _.forEach(newValue, function (value) {
+                    console.log(newValue);
+                    $scope.save(value);
                 });
             }, true);
 
@@ -67,5 +69,5 @@
                 $scope.remainingCount = uncompletedTodos.length;
             };
 
-        }]);
+        }
 })();
