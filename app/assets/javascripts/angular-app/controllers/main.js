@@ -2,10 +2,27 @@
 
     var app = angular.module('app');
 
-    app.controller('MainCtrl', ['Todo', '$scope', '$routeParams',
-        function (Todo, $scope, $routeParams) {
+    app.controller('MainCtrl', ['Todo', '$scope', '$routeParams', mainCtrl]);
 
+    function mainCtrl(Todo, $scope, $routeParams) {
             $scope.todos = Todo.query();
+
+            $scope.$watch('todos', function (newValue, oldValue) {
+                var trythis;
+
+                _.forEach(newValue, function(val) {
+                    _.forEach(oldValue, function (oldVal) {
+                        if(val.id === oldVal.id) {
+                            if(val.completed !== oldVal.completed) {
+                                trythis = val;
+                            }
+                        }
+                    });
+                });
+                if(!_.isUndefined(trythis)) {
+                    $scope.save(trythis);
+                }
+            }, true);
 
             $scope.$on('$routeChangeSuccess', function () {
                 var status = $scope.status = $routeParams.status || '';
@@ -31,10 +48,9 @@
                 });
             };
 
-            $scope.checkAndSave = function (todo, checked) {
-                todo.completed = checked || !!(!todo.completed);
-                $scope.save(todo);
-            };
+        $scope.checkAndSave = function(todo, checked) {
+            $scope.save(todo);
+        };
 
             $scope.save = function (todo) {
                 if (!_.include($scope.todos, todo)) {
@@ -63,5 +79,5 @@
                 $scope.remainingCount = uncompletedTodos.length;
             };
 
-        }]);
+        }
 })();
