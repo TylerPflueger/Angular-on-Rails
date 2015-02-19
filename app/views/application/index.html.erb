@@ -27,7 +27,7 @@
           class="toggle"
           type="checkbox"
           ng-model="todo.completed"
-          ng-click="checkAndSave(todo)">
+          ng-change="checkAndSave(todo)">
           <label ng-dblclick="edit(todo)">{{todo.title}}</label>
           <button class="destroy" ng-click="remove(todo)"></button>
         </div>

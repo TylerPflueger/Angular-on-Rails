@@ -7,23 +7,6 @@
     function mainCtrl(Todo, $scope, $routeParams) {
             $scope.todos = Todo.query();
 
-            $scope.$watch('todos', function (newValue, oldValue) {
-                var trythis;
-
-                _.forEach(newValue, function(val) {
-                    _.forEach(oldValue, function (oldVal) {
-                        if(val.id === oldVal.id) {
-                            if(val.completed !== oldVal.completed) {
-                                trythis = val;
-                            }
-                        }
-                    });
-                });
-                if(!_.isUndefined(trythis)) {
-                    $scope.save(trythis);
-                }
-            }, true);
-
             $scope.$on('$routeChangeSuccess', function () {
                 var status = $scope.status = $routeParams.status || '';
 
