@@ -3,9 +3,9 @@
 
     app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/', {
-            controller: 'MainCtrl'
+            controller: 'HomeCtrl'
         }).when('/:status', {
-            controller: 'MainCtrl'
+            controller: 'HomeCtrl'
         }).otherwise({
             redirectTo: '/'
         });

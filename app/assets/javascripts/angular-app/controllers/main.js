@@ -8,10 +8,20 @@
             $scope.todos = Todo.query();
 
             $scope.$watch('todos', function (newValue, oldValue) {
-                _.forEach(newValue, function (value) {
-                    console.log(newValue);
-                    $scope.save(value);
+                var trythis;
+
+                _.forEach(newValue, function(val) {
+                    _.forEach(oldValue, function (oldVal) {
+                        if(val.id === oldVal.id) {
+                            if(val.completed !== oldVal.completed) {
+                                trythis = val;
+                            }
+                        }
+                    });
                 });
+                if(!_.isUndefined(trythis)) {
+                    $scope.save(trythis);
+                }
             }, true);
 
             $scope.$on('$routeChangeSuccess', function () {
@@ -38,9 +48,9 @@
                 });
             };
 
-            $scope.checkAndSave = function (todo) {
-                $scope.save(todo);
-            };
+        $scope.checkAndSave = function(todo, checked) {
+            $scope.save(todo);
+        };
 
             $scope.save = function (todo) {
                 if (!_.include($scope.todos, todo)) {
