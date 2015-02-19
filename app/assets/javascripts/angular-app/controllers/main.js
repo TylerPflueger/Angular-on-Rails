@@ -48,9 +48,10 @@
                 });
             };
 
-        $scope.checkAndSave = function(todo, checked) {
-            $scope.save(todo);
-        };
+            // Some reason this isn't being hit when state is active...
+            $scope.checkAndSave = function(todo, checked) {
+                $scope.save(todo);
+            };
 
             $scope.save = function (todo) {
                 if (!_.include($scope.todos, todo)) {
